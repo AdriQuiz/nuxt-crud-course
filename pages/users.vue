@@ -5,14 +5,9 @@
         <div class="mb-4">
             <button @click="openCreateModal" class="p-2 bg-cyan-400 rounded-lg">+ Create User</button>
         </div>
-        
-        <UserForm
-            v-if="showModal"
-            :is-edit="isEdit"
-            :form-data="isEdit ? editUser : newUser"
-            @submit="isEdit ? handleUpdate() : handleCreate()"
-            @cancel="closeModal"
-        />
+
+        <UserForm v-if="showModal" :is-edit="isEdit" :form-data="isEdit ? editUser : newUser"
+            @submit="isEdit ? handleUpdate() : handleCreate()" @cancel="closeModal" />
 
         <!-- <div v-if="showEditModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div class="bg-black px-8 py-6 rounded-lg max-w-3xl w-full">
