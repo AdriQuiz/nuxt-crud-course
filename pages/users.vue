@@ -5,23 +5,16 @@
         <div class="mb-4">
             <button @click="showModal = true" class="p-2 bg-cyan-400 rounded-lg">+ Create User</button>
         </div>
-        <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-black px-8 py-6 rounded-lg max-w-3xl w-full">
-                <form @submit.prevent="handleCreate" class="flex flex-col gap-2 mb-4 w-full">
-                    <h3 class="text-white text-2xl mb-3">Create user</h3>
-                    <input v-model="newUser.name" placeholder="Name" class="border p-2 mb-3 rounded" />
-                    <input v-model="newUser.email" placeholder="Email" class="border p-2 mb-3 rounded" />
-                    <input v-model="newUser.password" placeholder="Password" type="password"
-                        class="border p-2 mb-3 rounded" />
-                    <div class="flex gap-3">
-                        <button type="submit" class="bg-blue-400 text-white px-4 p-3 rounded">Create</button>
-                        <button type="button" @click="closeModal" class="bg-gray-500 p-3 rounded">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        
+        <UserForm
+            v-if="showModal"
+            :is-edit="isEdit"
+            :form-data="isEdit ? editUser : newUser"
+            @submit="isEdit ? handleUpdate() : handleCreate()"
+            @cancel="closeModal"
+        />
 
-        <div v-if="showEditModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <!-- <div v-if="showEditModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div class="bg-black px-8 py-6 rounded-lg max-w-3xl w-full">
                 <form @submit.prevent="handleUpdate" class="flex flex-col gap-2 mb-4 w-full">
                     <h3 class="text-white text-2xl mb-3">Edit User</h3>
@@ -35,7 +28,7 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div> -->
 
         <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             <li v-for="user in users" :key="user._id" class="bg-slate-400 p-3 rounded-md">
@@ -57,35 +50,43 @@ import { useUsers } from '#imports';
 import type { CreateUserPayload, UpdateUserPayload, User } from '~/types/user';
 
 const { getUsers, createUser, updateUser, deleteUser } = useUsers();
-
-// Listar usuarios
 const toast = useToast() as any;
 
+// Modal y edicion
+const showModal = ref(false);
+const isEdit = ref(false);
+const editUserId = ref<string>('');
+
+// Form data
+const editUser = reactive<UpdateUserPayload>({ name: '', email: '', password: '' });
+const newUser = reactive<CreateUserPayload>({ name: '', email: '', password: '' });
+
+// Users
 const { data: users, refresh: refreshUsers } = await getUsers();
 
-// Crear usuario
-const showModal = ref(false);
-const closeModal = () => {
-    showModal.value = false;
-    showEditModal.value = false;
-
-    Object.assign(newUser, { name: '', email: '', password: '' });
-    Object.assign(editUser, { name: '', email: '', password: '' });
-
-    editUserId.value = '';
+const openCreateModal = () => {
+    isEdit.value = false;
+    showModal.value = true;
 };
 
-const newUser = reactive<CreateUserPayload>({
-    name: '',
-    email: '',
-    password: ''
-});
+const openEditModal = (user: User) => {
+    isEdit.value = true;
+    editUserId.value = user._id;
+    Object.assign(editUser, user);
+    showModal.value = true;
+};
+
+const closeModal = () => {
+    showModal.value = false;
+    Object.assign(newUser, { name: '', email: '', password: '' });
+    Object.assign(editUser, { name: '', email: '', password: '' });
+    editUserId.value = '';
+};
 
 const handleCreate = async () => {
     const { error } = await createUser({ ...newUser });
     if (!error.value) {
-        toast.success({ title: 'Success!', message: 'User created successfully.' })
-        Object.assign(newUser, { name: '', email: '', password: '' });
+        toast.success({ title: 'Success!', message: 'User created successfully.' });
         closeModal();
         await refreshUsers();
     } else {
@@ -93,30 +94,18 @@ const handleCreate = async () => {
     }
 }
 
-// Edit user
-const showEditModal = ref(false);
-const editUserId = ref<string>('');
-const editUser = reactive<UpdateUserPayload>({ name: '', email: '', password: '' });
-
-const openEditModal = (user: User) => {
-    editUserId.value = user._id;
-    Object.assign(editUser, user);
-    showEditModal.value = true;
-};
-
 const handleUpdate = async () => {
     const { error } = await updateUser(editUserId.value, { ...editUser });
 
     if (!error.value) {
         toast.success({ title: 'Success!', message: 'User updated successfully.' });
-        showEditModal.value = false;
+        closeModal();
         await refreshUsers();
     } else {
         toast.error({ title: 'Error!', message: 'Could not update user.' });
     }
 };
 
-// Delete user
 const handleDelete = async (id: string) => {
     const { error } = await deleteUser(id);
     if (!error.value) {
