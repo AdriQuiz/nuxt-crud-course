@@ -6,8 +6,13 @@
             <button @click="openCreateModal" class="p-2 bg-cyan-400 rounded-lg">+ Create User</button>
         </div>
 
-        <UserForm v-if="showModal" :is-edit="isEdit" :form-data="isEdit ? editUser : newUser"
-            @submit="isEdit ? handleUpdate() : handleCreate()" @cancel="closeModal" />
+        <UserForm v-if="showModal" 
+            :is-edit="isEdit" 
+            :form-data="isEdit ? editUser : newUser"
+            @submit="isEdit ? handleUpdate() : handleCreate()" 
+            @cancel="closeModal" 
+            :loading="loading"
+        />
 
         <!-- <div v-if="showEditModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div class="bg-black px-8 py-6 rounded-lg max-w-3xl w-full">
@@ -51,6 +56,7 @@ const toast = useToast() as any;
 const showModal = ref(false);
 const isEdit = ref(false);
 const editUserId = ref<string>('');
+const loading = ref(false);
 
 // Form data
 const editUser = reactive<UpdateUserPayload>({ name: '', email: '', password: '' });
@@ -78,8 +84,32 @@ const closeModal = () => {
     editUserId.value = '';
 };
 
+const validateUser = (user: CreateUserPayload | UpdateUserPayload): boolean => {
+    if (!user.name || user.name.trim() === '') {
+        toast.error({ title: 'Invalid data', message: 'User name is required.' });
+        return false;
+    }
+
+    if (!user.email) {
+        toast.error({ title: 'Invalid data', message: 'Email is required' });
+        return false;
+    }
+
+    if (!user.password) {
+        toast.error({ title: 'Invalid data', message: 'Password is required' });
+        return false;
+    }
+
+    return true;
+};
+
 const handleCreate = async () => {
+    if (!validateUser(newUser)) return;
+
+    loading.value = true;
     const { error } = await createUser({ ...newUser });
+    loading.value = false;
+
     if (!error.value) {
         toast.success({ title: 'Success!', message: 'User created successfully.' });
         closeModal();
@@ -90,7 +120,11 @@ const handleCreate = async () => {
 }
 
 const handleUpdate = async () => {
+    if (!validateUser(editUser)) return;
+
+    loading.value = true;
     const { error } = await updateUser(editUserId.value, { ...editUser });
+    loading.value = false;
 
     if (!error.value) {
         toast.success({ title: 'Success!', message: 'User updated successfully.' });
@@ -102,7 +136,10 @@ const handleUpdate = async () => {
 };
 
 const handleDelete = async (id: string) => {
+    loading.value = true;
     const { error } = await deleteUser(id);
+    loading.value = false;
+    
     if (!error.value) {
         toast.success({ title: 'Success!', message: 'User deleted successfully.' });
         await refreshUsers();

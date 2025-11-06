@@ -9,10 +9,10 @@
                 <input v-model="formData.price" placeholder="Price" class="border p-2 mb-3 rounded" type="number" />
                 <input v-model="formData.stock" placeholder="Stock" class="border p-2 mb-3 rounded" type="number" />
                 <div class="flex gap-3">
-                    <button type="submit" class="bg-blue-400 text-white px-4 p-3 rounded">
+                    <button type="submit" :disabled="props.loading" class="bg-blue-400 text-white px-4 p-3 rounded">
                         {{ isEdit ? 'Update' : 'Create' }}
                     </button>
-                    <button type="button" @click="$emit('cancel')" class="bg-gray-500 p-3 rounded">Cancel</button>
+                    <button type="button" :disabled="props.loading" @click="$emit('cancel')" class="bg-gray-500 p-3 rounded">Cancel</button>
                 </div>
             </form>
         </div>
@@ -25,7 +25,8 @@ import type { CreateProductPayload, UpdateProductPayload } from '~/types/product
 
 const props = defineProps<{
     isEdit: boolean,
-    formData: CreateProductPayload | UpdateProductPayload
+    formData: CreateProductPayload | UpdateProductPayload,
+    loading?: boolean
 }>();
 
 const emit = defineEmits<{

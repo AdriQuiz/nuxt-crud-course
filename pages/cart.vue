@@ -24,6 +24,9 @@
                         <p>Price: {{ item.productId.price }}</p>
                         <p>Quantity: {{ item.quantity }}</p>
                     </div>
+                    <div>
+                        <button @click="handleDelete(item._id)" class="bg-red-500 px-3 py-2 rounded-md">Delete</button>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -35,7 +38,7 @@ import type { Product } from '~/types/product';
 
 const route = useRoute();
 const userId = ref<string>('');
-const { getCartItem, createCartItem } = useCarts();
+const { getCartItem, createCartItem, deleteCartItem } = useCarts();
 const { getProducts } = useProducts();
 const toast = useToast() as any;
 
@@ -66,6 +69,14 @@ const handleCreate = async (product: Product) => {
 
 const handleUpdate = () => {};
 
-const handleDelete = () => {};
+const handleDelete = async (id: string) => {
+    const { error } = await deleteCartItem(id);
+    if (!error.value) {
+        toast.success({ title: 'Success!', message: 'Item deleted from cart successfully.' });
+        await refreshItems();
+    } else {
+        toast.error({ title: 'Error!', message: 'Could not delete item.' });
+    }
+};
 
 </script>
