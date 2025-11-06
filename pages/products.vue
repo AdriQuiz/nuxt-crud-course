@@ -18,7 +18,7 @@
         <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             <li v-for="product in products" :key="product._id" class="bg-slate-400 p-3 rounded-md">
                 <div class="flex flex-col gap-1 mb-4">
-                    <h3 class="text-xl">Product: {{ product.name }}</h3>
+                    <h3 class="text-xl">{{ product.name }}</h3>
                     <p>Price: ${{ product.price }}</p>
                     <p>Stock: {{ product.stock }}</p>
                 </div>
