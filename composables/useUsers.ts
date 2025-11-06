@@ -2,10 +2,13 @@ import type { CreateUserPayload, UpdateUserPayload, User } from "~/types/user";
 
 export const useUsers = () => {
     const apiUrl = useRuntimeConfig().public.API_URL;
-    
+
     const getUsers = async () => {
-        const { data, pending, error } = await useFetch<User[]>(`${apiUrl}/users`);
-        return { data, pending, error };
+        const { data, pending, error, refresh } = await useFetch<User[]>(
+            `${apiUrl}/users`,
+            { method: 'GET' }
+        );
+        return { data, pending, error, refresh };
     };
 
     const createUser = async (payload: CreateUserPayload) => {

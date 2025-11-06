@@ -45,7 +45,7 @@
                 </div>
                 <div class="flex gap-4">
                     <button @click="openEditModal(user)" class="bg-yellow-300 px-3 py-2 rounded-md">Edit</button>
-                    <button class="bg-red-500 px-3 py-2 rounded-md">Delete</button>
+                    <button @click="handleDelete(user._id)" class="bg-red-500 px-3 py-2 rounded-md">Delete</button>
                 </div>
             </li>
         </ul>
@@ -59,15 +59,9 @@ import type { CreateUserPayload, UpdateUserPayload, User } from '~/types/user';
 const { getUsers, createUser, updateUser, deleteUser } = useUsers();
 
 // Listar usuarios
-const users = ref<User[]>([]);
 const toast = useToast() as any;
 
-const loadUsers = async () => {
-    const { data } = await getUsers();
-    if (data.value) users.value = data.value;
-};
-
-onMounted(loadUsers);
+const { data: users, refresh: refreshUsers } = await getUsers();
 
 // Crear usuario
 const showModal = ref(false);
@@ -93,7 +87,7 @@ const handleCreate = async () => {
         toast.success({ title: 'Success!', message: 'User created successfully.' })
         Object.assign(newUser, { name: '', email: '', password: '' });
         closeModal();
-        await loadUsers();
+        await refreshUsers();
     } else {
         toast.error({ title: 'Error!', message: 'Could not create user.' })
     }
@@ -116,9 +110,20 @@ const handleUpdate = async () => {
     if (!error.value) {
         toast.success({ title: 'Success!', message: 'User updated successfully.' });
         showEditModal.value = false;
-        await loadUsers();
+        await refreshUsers();
     } else {
         toast.error({ title: 'Error!', message: 'Could not update user.' });
+    }
+};
+
+// Delete user
+const handleDelete = async (id: string) => {
+    const { error } = await deleteUser(id);
+    if (!error.value) {
+        toast.success({ title: 'Success!', message: 'User deleted successfully.' });
+        await refreshUsers();
+    } else {
+        toast.error({ title: 'Error!', message: 'Could not delete user.' });
     }
 };
 </script>
