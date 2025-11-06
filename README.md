@@ -1,75 +1,53 @@
-# Nuxt Minimal Starter
+# Nuxt Crud Course
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Este proyecto es una simulación de un carrito de compras desarrollado con Nuxt + Vue y Nest JS. En este README se detalla el desarrollo del lado del Front-End.
+Consume la API REST del backend para manejar productos, usuarios y carritos.
 
-## Setup
+## Instrucciones de setup
 
-Make sure to install dependencies:
+1. Clonar el repositorio:
 
 ```bash
-# npm
+git clone https://github.com/AdriQuiz/nuxt-crud-course.git
+cd nuxt-crud-course
+```
+
+2. Instalar dependencias y crear .env
+
+```bash
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
+# o
 yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+Se consideran estas URLs de ejemplo, la URI de mongoDB debe reemplazarse con la correcta.
 
 ```bash
-# npm
+touch .env
+NUXT_PUBLIC_API_URL=http://localhost:3000
+MONGODB_URI=mongodb+srv://christina:<your_password>@cluster0.7klddq6.mongodb.net/?appName=Cluster0
+```
+
+### Librerías usadas
+- **mongoose:** Para el manejo de base de datos en MongoDB Atlas.
+- **nuxt-toast:** Para mostrar popups de éxito o error en operaciones.
+
+3. Correr el servidor:
+
+```bash
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
+# o
 yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
-
-Build the application for production:
+4. Abrir el navegador, el frontend estará disponible en:
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+http://localhost:5173
 ```
 
-Locally preview production build:
+## Funcionalidades
 
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+1. Usuarios
+2. Productos
+3. Carritos
