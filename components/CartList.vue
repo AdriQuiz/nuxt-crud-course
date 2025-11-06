@@ -30,10 +30,10 @@ import type { CartItem } from '~/types/cart';
 
 defineProps<{
     items: CartItem[]
-}>;
+}>();
 
 defineEmits<{
     (e: 'updateQuantity', id: string, newQuantity: number): void;
     (e: 'deleteItem', id: string): void;
-}>;
+}>();
 </script>
