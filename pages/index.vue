@@ -12,7 +12,7 @@
                 Ver Usuarios
             </NuxtLink>
         </div>
-        <form @submit.prevent="goToCart">
+        <form @submit.prevent="goToCart" class="flex gap-3">
             <input type="text" v-model="userId" placeholder="Insert your ID" class="p-2 border rounded">
             <button type="submit" class="p-2 bg-green-300 rounded">See Items</button>
         </form>
