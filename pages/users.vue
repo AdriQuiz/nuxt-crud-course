@@ -3,7 +3,7 @@
         <h2 class="text-3xl flex justify-center my-4 text-white">Users</h2>
 
         <div class="mb-4">
-            <button @click="showModal = true" class="p-2 bg-cyan-400 rounded-lg">+ Create User</button>
+            <button @click="openCreateModal" class="p-2 bg-cyan-400 rounded-lg">+ Create User</button>
         </div>
         
         <UserForm
