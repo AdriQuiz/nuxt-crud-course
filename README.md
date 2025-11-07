@@ -59,29 +59,29 @@ http://localhost:3000
 
 1. Inicio del sitio
 
-Abrir http://localhost:5173 en el navegador.
-Se debe ver una página base que permite elegir 3 opciones:
+- Abrir http://localhost:5173 en el navegador.
+- Se debe ver una página base que permite elegir 3 opciones:
 - Ver productos, ver usuarios o ver carrito
 
 2. Gestión de usuarios
 
-Desde la pagina principal `/users`, se listan los usuarios.
-Cada uno tiene la opcion de actualizar o eliminar.
-Hay un botón para crear nuevo usuario.
+- Desde la pagina principal `/users`, se listan los usuarios.
+- Cada uno tiene la opcion de actualizar o eliminar.
+- Hay un botón para crear nuevo usuario.
 
 3. Gestión de productos
 
-Desde la pagina principal `/products`, se listan los productos.
-Cada uno tiene la opcion de actualizar o eliminar.
-Hay un botón para crear nuevo productos.
+- Desde la pagina principal `/products`, se listan los productos.
+- Cada uno tiene la opcion de actualizar o eliminar.
+- Hay un botón para crear nuevo productos.
 
 4. Carrito de compras
 
-En la página `/cart`, se accede a los items de carrito de un usuario mediante su ID.
-En la parte izquierda, se renderiza el catálogo de productos disponibles.
-En la parte derecha, se renderiza la lista de items elegidos.
+- En la página `/cart`, se accede a los items de carrito de un usuario mediante su ID.
+- En la parte izquierda, se renderiza el catálogo de productos disponibles.
+- En la parte derecha, se renderiza la lista de items elegidos.
 - Una vez seleccionado un item, se puede editar su cantidad con botones o escribiendo directamente la cantidad deseada, siempre que esté en stock.
-El frontend envía la petición al backend usando la URL configurada en .env
+- El frontend envía la petición al backend usando la URL configurada en .env
 
 ## Estructura general del proyecto
 
