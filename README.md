@@ -20,17 +20,19 @@ npm install
 yarn install
 ```
 
-Se consideran estas URLs de ejemplo, la URI de mongoDB debe reemplazarse con la correcta.
+Se consideran la URL para conectar con el backend.
+Se condera la URL para conectar la base de datos de MongoDB.
 
 ```bash
 touch .env
 NUXT_PUBLIC_API_URL=http://localhost:3000
-MONGODB_URI=mongodb+srv://christina:<your_password>@cluster0.7klddq6.mongodb.net/?appName=Cluster0
+MONGODB_URI=<MONGODB_URI>
 ```
 
-### Librerías usadas
+### Tecnologías usadas
 - **mongoose:** Para el manejo de base de datos en MongoDB Atlas.
 - **nuxt-toast:** Para mostrar popups de éxito o error en operaciones.
+- **Tailwind CSS:** Para describir estilos a las páginas.
 
 3. Correr el servidor:
 
@@ -46,8 +48,47 @@ yarn dev
 http://localhost:5173
 ```
 
-## Funcionalidades
+Asegurarse de tener el backend corriendo localmente en:
 
-1. Usuarios
-2. Productos
-3. Carritos
+```bash
+http://localhost:3000
+```
+
+
+## Cómo probar las funcionalidades
+
+1. Inicio del sitio
+
+Abrir http://localhost:5173 en el navegador.
+Se debe ver una página base que permite elegir 3 opciones:
+- Ver productos, ver usuarios o ver carrito
+
+2. Gestión de usuarios
+
+Desde la pagina principal `/users`, se listan los usuarios.
+Cada uno tiene la opcion de actualizar o eliminar.
+Hay un botón para crear nuevo usuario.
+
+3. Gestión de productos
+
+Desde la pagina principal `/products`, se listan los productos.
+Cada uno tiene la opcion de actualizar o eliminar.
+Hay un botón para crear nuevo productos.
+
+4. Carrito de compras
+
+En la página `/cart`, se accede a los items de carrito de un usuario mediante su ID.
+En la parte izquierda, se renderiza el catálogo de productos disponibles.
+En la parte derecha, se renderiza la lista de items elegidos.
+- Una vez seleccionado un item, se puede editar su cantidad con botones o escribiendo directamente la cantidad deseada, siempre que esté en stock.
+El frontend envía la petición al backend usando la URL configurada en .env
+
+## Estructura general del proyecto
+
+```bash
+pages/ --> Vistas principales (inicio, productos, carrito, usuarios)
+components/ --> Componentes reutilizables (formularios)
+composables/ --> Funciones auxiliares y lógica reutilizable
+assets/ --> Archivos de estilos o imágenes
+.env --> Variables de entorno
+```

@@ -75,13 +75,13 @@ const validateProduct = (product: CreateProductPayload | UpdateProductPayload): 
         return false;
     }
 
-    if ((product.price ?? 0) < 0) {
-        toast.error({ title: 'Invalid data', message: 'Stock cannot be negative.' });
+    if (!product.price || product.price < 0) {
+        toast.error({ title: 'Invalid data', message: 'Enter a valid price number' });
         return false;
     }
 
-    if ((product.stock ?? 0) < 0) {
-        toast.error({ title: 'Invalid data', message: 'Stock cannot be negative.' });
+    if (!product.stock || product.stock < 0) {
+        toast.error({ title: 'Invalid data', message: 'Enter a valid stock number' });
         return false;
     }
 
