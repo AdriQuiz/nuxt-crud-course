@@ -78,6 +78,7 @@ http://localhost:3000
 4. Carrito de compras
 
 - En la página `/cart`, se accede a los items de carrito de un usuario mediante su ID.
+- NOTA: El ID a ingresar debe ser el que pertenece al campo `_id` de cada usuario en la BD de MongoDB.
 - En la parte izquierda, se renderiza el catálogo de productos disponibles.
 - En la parte derecha, se renderiza la lista de items elegidos.
 - Una vez seleccionado un item, se puede editar su cantidad con botones o escribiendo directamente la cantidad deseada, siempre que esté en stock.
